@@ -51,7 +51,27 @@ GO
 
 ALTER TABLE [dbo].[UserMaster] CHECK CONSTRAINT [fk_UserMaster_UserTypeId_ref_UserTypeMaster_UserTypeId]
 GO
+	
+CREATE TABLE [dbo].[AccountMaster](
+	[AccountId] [int] IDENTITY(1,1) NOT NULL,
+	[UserId] [int] NOT NULL,
+	[PasswordHash] [varbinary](max) NOT NULL,
+	[PasswordSalt] [varbinary](max) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[AccountId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
 
+ALTER TABLE [dbo].[AccountMaster]  WITH CHECK ADD  CONSTRAINT [fk_AccountMaster_UserId_ref_UserMaster_UserId] FOREIGN KEY([UserId])
+REFERENCES [dbo].[UserMaster] ([UserId])
+GO
+
+ALTER TABLE [dbo].[AccountMaster] CHECK CONSTRAINT [fk_AccountMaster_UserId_ref_UserMaster_UserId]
+GO
 -- 8. Create Table AquariumMaster
 
 CREATE TABLE [dbo].[AquariumMaster](
